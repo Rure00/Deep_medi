@@ -1,13 +1,15 @@
 package com.rure.deepmedi.data.retrofit
 
+import com.rure.deepmedi.data.dto.GetUserInfoResponseDto
 import com.rure.deepmedi.data.dto.LoginRequestDto
 import com.rure.deepmedi.data.dto.LoginResponseDto
-import com.rure.deepmedi.data.entity.UserAttribute
+import com.rure.deepmedi.data.dto.RetrieveUserAttrResponseDto
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface ApiService {
     @POST("auth/login")
@@ -18,8 +20,10 @@ interface ApiService {
     @GET("auth/user")
     suspend fun getUserInformation(
         @Header("Authentication") authentication: String
-    ): Response<LoginResponseDto>
+    ): Response<GetUserInfoResponseDto>
 
-    @GET("plugins/telemetry/USER/{userid}/values/attributes/SERVER_SCOPE")
-    suspend fun retrieveUserAttributes(): Response<List<UserAttribute>>
+    @GET("plugins/telemetry/USER/{userId}/values/attributes/SERVER_SCOPE")
+    suspend fun retrieveUserAttributes(
+        @Path("userId") userId: String
+    ): Response<RetrieveUserAttrResponseDto>
 }
