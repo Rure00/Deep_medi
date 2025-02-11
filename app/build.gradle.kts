@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId = "com.rure.deepmedi"
-        minSdk = 30
+        minSdk = 29
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -84,4 +84,17 @@ dependencies {
     // okhttp3
     implementation("com.squareup.okhttp3:okhttp:4.8.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.8.0")
+
+    // camera
+    val cameraxVersion = "1.4.1"
+//    implementation("androidx.camera:camera-core:$cameraxVersion")
+//    implementation("androidx.camera:camera-camera2:$cameraxVersion")
+//    implementation("androidx.camera:camera-view:$cameraxVersion")
+//    implementation("androidx.camera:camera-lifecycle:$cameraxVersion")
+
+    implementation("androidx.camera:camera-compose:1.5.0-alpha05")
+
+
+    // permission
+    implementation ("com.google.accompanist:accompanist-permissions:0.36.0")
 }
