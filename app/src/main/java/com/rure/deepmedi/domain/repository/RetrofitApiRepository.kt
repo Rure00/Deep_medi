@@ -19,6 +19,7 @@ interface RetrofitApiRepository {
     ): Result<Entity>
 
     suspend fun retrieveUserAttribute(
+        token: String,
         userId: String
     ): Result<List<UserAttribute>>
 }

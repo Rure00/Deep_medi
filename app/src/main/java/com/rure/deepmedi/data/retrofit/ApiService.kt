@@ -24,6 +24,7 @@ interface ApiService {
 
     @GET("plugins/telemetry/USER/{userId}/values/attributes/SERVER_SCOPE")
     suspend fun retrieveUserAttributes(
+        @Header("Authentication") authentication: String,
         @Path("userId") userId: String
     ): Response<RetrieveUserAttrResponseDto>
 }

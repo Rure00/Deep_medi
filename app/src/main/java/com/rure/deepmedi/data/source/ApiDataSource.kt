@@ -86,10 +86,11 @@ class ApiDataSource @Inject constructor(
     }
 
     suspend fun retrieveUserAttribute(
+        token: String,
         userId: String
     ): Result<List<UserAttribute>> {
         return kotlin.runCatching {
-            val response = apiService.retrieveUserAttributes(userId)
+            val response = apiService.retrieveUserAttributes(token, userId)
 
             if(response.isSuccessful && response.code() == 200) {
                 val body = response.body()!!

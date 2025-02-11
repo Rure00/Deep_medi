@@ -24,8 +24,8 @@ class RetrofitApiRepositoryImpl @Inject constructor(
         return apiDataSource.getUserInformation(token)
     }
 
-    override suspend fun retrieveUserAttribute(userId: String): Result<List<UserAttribute>> {
-        return  apiDataSource.retrieveUserAttribute(userId)
+    override suspend fun retrieveUserAttribute(token: String, userId: String): Result<List<UserAttribute>> {
+        return  apiDataSource.retrieveUserAttribute(token, userId)
     }
 
 }
