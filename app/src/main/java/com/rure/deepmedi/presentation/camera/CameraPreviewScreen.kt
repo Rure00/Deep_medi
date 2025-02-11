@@ -1,6 +1,5 @@
 package com.rure.deepmedi.presentation.camera
 
-import androidx.camera.compose.CameraXViewfinder
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -41,10 +40,10 @@ fun CameraPreviewScreen(
     }
 
     surfaceRequest?.let { request ->
-        CameraXViewfinder(
-            surfaceRequest = request,
-            modifier = Modifier
-        )
+//        CameraXViewfinder(
+//            surfaceRequest = request,
+//            modifier = Modifier
+//        )
     }
 
 

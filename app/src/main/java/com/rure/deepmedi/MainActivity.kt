@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.rure.deepmedi.presentation.camera.CameraPreviewScreen
+import com.rure.deepmedi.presentation.camera.CameraScreen
 import com.rure.deepmedi.ui.theme.DeepMediTheme
 
 class MainActivity : ComponentActivity() {
@@ -26,7 +27,7 @@ class MainActivity : ComponentActivity() {
                     Box(
                         modifier = Modifier.padding(innerPadding)
                     ) {
-                        CameraPreviewScreen()
+                        CameraScreen()
                     }
                 }
             }

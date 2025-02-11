@@ -13,7 +13,7 @@ android {
     defaultConfig {
         applicationId = "com.rure.deepmedi"
         minSdk = 29
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -33,17 +33,17 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
     buildFeatures {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = "1.5.6"
     }
     packaging {
         resources {
@@ -87,12 +87,12 @@ dependencies {
 
     // camera
     val cameraxVersion = "1.4.1"
-//    implementation("androidx.camera:camera-core:$cameraxVersion")
-//    implementation("androidx.camera:camera-camera2:$cameraxVersion")
-//    implementation("androidx.camera:camera-view:$cameraxVersion")
-//    implementation("androidx.camera:camera-lifecycle:$cameraxVersion")
+    implementation("androidx.camera:camera-core:$cameraxVersion")
+    implementation("androidx.camera:camera-camera2:$cameraxVersion")
+    implementation("androidx.camera:camera-view:$cameraxVersion")
+    implementation("androidx.camera:camera-lifecycle:$cameraxVersion")
 
-    implementation("androidx.camera:camera-compose:1.5.0-alpha05")
+    //implementation("androidx.camera:camera-compose:1.5.0-alpha05")
 
 
     // permission
