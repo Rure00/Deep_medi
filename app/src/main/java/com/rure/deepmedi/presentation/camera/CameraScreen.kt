@@ -10,7 +10,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
@@ -78,34 +81,39 @@ fun CameraScreen(
         previewView.value?.let { preview ->
             AndroidView(modifier = Modifier.fillMaxSize(), factory = { preview }) {}
         }
-        Box(
-            modifier = Modifier
-                .size(55.dp)
-                .clip(CircleShape)
-                .background(Color.White),
-            contentAlignment = Alignment.Center
-        ) {
+        Column {
             Box(
                 modifier = Modifier
-                    .size(44.dp)
+                    .size(55.dp)
                     .clip(CircleShape)
-                    .background(Color.White)
-                    .border(
-                        width = 1.dp,
-                        color = Gray,
-                        shape = CircleShape
-                    ).clickable {
-                        cameraX.takePicture { name ->
-                            val imageFile = cameraX.getImage(name)
-                            if(imageFile != null) {
-                                mainViewModel.emit(ApiIntent.SendImage(imageFile))
-                            } else {
-                                Toast.makeText(context, context.getString(R.string.fail_taking_picture_guide), Toast.LENGTH_SHORT).show()
+                    .background(Color.White),
+                contentAlignment = Alignment.Center
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(44.dp)
+                        .clip(CircleShape)
+                        .background(Color.White)
+                        .border(
+                            width = 1.dp,
+                            color = Gray,
+                            shape = CircleShape
+                        ).clickable {
+                            cameraX.takePicture { name ->
+                                val imageFile = cameraX.getImage(name)
+                                if(imageFile != null) {
+                                    mainViewModel.emit(ApiIntent.SendImage(imageFile))
+                                } else {
+                                    Toast.makeText(context, context.getString(R.string.fail_taking_picture_guide), Toast.LENGTH_SHORT).show()
+                                }
                             }
                         }
-                    }
-            )
+                )
+            }
+
+            Spacer(modifier = Modifier.height(33.dp))
         }
+
     }
 
 
