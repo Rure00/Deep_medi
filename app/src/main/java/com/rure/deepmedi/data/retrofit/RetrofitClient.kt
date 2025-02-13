@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
     private const val BASE_URL = "https://iot.deep-medi.com/api/"
-    private const val UPLOAD_URL = "http://blockchain.deep-medi.com/deepmedi-test-first"
+    private const val UPLOAD_URL = "http://blockchain.deep-medi.com/"
 
     private val okHttpClient=  OkHttpClient().newBuilder()
         .addInterceptor(HttpLoggingInterceptor()).build()

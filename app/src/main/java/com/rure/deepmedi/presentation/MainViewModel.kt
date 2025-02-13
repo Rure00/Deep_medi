@@ -1,5 +1,6 @@
 package com.rure.deepmedi.presentation
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rure.deepmedi.data.entity.TokenList
@@ -13,6 +14,11 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import okhttp3.Dispatcher
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import javax.inject.Inject
 
@@ -49,7 +55,15 @@ class MainViewModel @Inject constructor(
 
     private fun sendPicture(image: File) {
         viewModelScope.launch {
+            val fileBody = RequestBody.create("image/*".toMediaTypeOrNull(), image)
+            val part = MultipartBody.Part.createFormData("file", image.name, fileBody)
+            val result = repository.uploadImageFile(part)
 
+            result.onSuccess {
+                Log.d("MainViewModel", "sendPicture Success) ${it.email}, ${it.password}")
+            }.onFailure {
+                Log.d("MainViewModel", "sendPicture Fail) ${it.message}")
+            }
         }
     }
     private fun tryAuthenticate(userData: UserData) {

@@ -16,7 +16,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.rure.deepmedi.presentation.camera.CameraPreviewScreen
 import com.rure.deepmedi.presentation.camera.CameraScreen
 import com.rure.deepmedi.ui.theme.DeepMediTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -37,6 +37,7 @@ import com.rure.deepmedi.MainActivity
 import com.rure.deepmedi.R
 import com.rure.deepmedi.presentation.CameraViewModel
 import com.rure.deepmedi.presentation.MainViewModel
+import com.rure.deepmedi.presentation.state.ApiIntent
 import com.rure.deepmedi.presentation.utils.MyCameraX
 import com.rure.deepmedi.ui.theme.Gray
 import kotlinx.coroutines.Dispatchers
@@ -45,7 +46,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun CameraScreen(
     context: Context = LocalContext.current,
-    mainViewModel: MainViewModel = viewModel()
+    mainViewModel: MainViewModel = viewModel(context as MainActivity)
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
     val cameraScope = rememberCoroutineScope()
@@ -97,7 +98,7 @@ fun CameraScreen(
                         cameraX.takePicture { name ->
                             val imageFile = cameraX.getImage(name)
                             if(imageFile != null) {
-                                mainViewModel
+                                mainViewModel.emit(ApiIntent.SendImage(imageFile))
                             } else {
                                 Toast.makeText(context, context.getString(R.string.fail_taking_picture_guide), Toast.LENGTH_SHORT).show()
                             }
