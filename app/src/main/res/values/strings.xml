@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">DeepMedi</string>
+    <string name="fail_taking_picture_guide">촬영 실패</string>
 </resources>
