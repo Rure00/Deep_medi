@@ -45,6 +45,7 @@ import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.google.accompanist.permissions.rememberPermissionState
 import com.rure.deepmedi.MainActivity
 import com.rure.deepmedi.R
+import com.rure.deepmedi.data.entity.UserData
 import com.rure.deepmedi.presentation.CameraViewModel
 import com.rure.deepmedi.presentation.MainViewModel
 import com.rure.deepmedi.presentation.state.ApiIntent
@@ -58,6 +59,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun CameraScreen(
+    toHome: () -> Unit,
     context: Context = LocalContext.current,
     mainViewModel: MainViewModel = viewModel(context as MainActivity)
 ) {
