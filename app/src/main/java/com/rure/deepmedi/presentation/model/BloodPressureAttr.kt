@@ -2,7 +2,7 @@ package com.rure.deepmedi.presentation.model
 
 import com.rure.deepmedi.data.entity.AttributeTag
 
-class BloodPressure(
+class BloodPressureAttr(
     valueStr: String,
     override val tag: AttributeTag,
     override val lastUpdateTs: Long

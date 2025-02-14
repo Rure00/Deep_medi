@@ -8,6 +8,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 
 
 @Module
@@ -22,5 +24,13 @@ class ProvideModule {
     @ViewModelScoped
     fun provideUploadService() : UploadService {
         return RetrofitClient.uploadInstance.create(UploadService::class.java)
+    }
+
+
+
+    @Provides
+    @ViewModelScoped
+    fun provideIoDispatcher() : CoroutineDispatcher {
+        return Dispatchers.IO
     }
 }
