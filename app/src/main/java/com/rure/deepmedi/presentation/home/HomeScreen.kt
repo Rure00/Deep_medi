@@ -3,9 +3,11 @@ package com.rure.deepmedi.presentation.home
 import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -30,6 +32,7 @@ import com.rure.deepmedi.presentation.model.HeartRateAttr
 import com.rure.deepmedi.presentation.model.find
 import com.rure.deepmedi.ui.theme.Black
 import com.rure.deepmedi.ui.theme.Typography
+import com.rure.deepmedi.utils.calculateAge
 
 @Composable
 fun HomeScreen(
@@ -64,11 +67,22 @@ fun HomeScreen(
             color = Black
         )
         Spacer(modifier = Modifier.height(12.dp))
-        Text(
-            text = gender.value,
-            style = Typography.titleMedium,
-            color = Black
-        )
+        Row(
+            modifier = Modifier.wrapContentSize()
+        ) {
+            Text(
+                text = stringResource(R.string.gender_birth_text, birth.value.calculateAge(), gender.value),
+                style = Typography.bodyMedium,
+                color = Black
+            )
+            Text(
+                text = stringResource(R.string.measure_result_text),
+                style = Typography.bodySmall,
+                color = Black
+            )
+        }
+
+        Spacer(modifier = Modifier.height(20.dp))
 
 
     }

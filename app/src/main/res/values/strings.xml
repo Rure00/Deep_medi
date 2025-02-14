@@ -2,4 +2,6 @@
     <string name="app_name">DeepMedi</string>
     <string name="fail_taking_picture_guide">촬영 실패</string>
     <string name="home_need_attention_guide">건강에 대한 관심이 필요합니다.</string>
+    <string name="gender_birth_text">%s세 %s</string>
+    <string name="measure_result_text"> - 건강 측정 결과</string>
 </resources>

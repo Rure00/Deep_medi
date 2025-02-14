@@ -1,4 +1,4 @@
-package com.rure.deepmedi.di
+package com.rure.deepmedi.utils.di
 
 import com.rure.deepmedi.data.repository.RetrofitApiRepositoryImpl
 import com.rure.deepmedi.domain.repository.RetrofitApiRepository

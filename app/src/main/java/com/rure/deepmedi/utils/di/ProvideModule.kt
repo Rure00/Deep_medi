@@ -1,4 +1,4 @@
-package com.rure.deepmedi.di
+package com.rure.deepmedi.utils.di
 
 import com.rure.deepmedi.data.retrofit.ApiService
 import com.rure.deepmedi.data.retrofit.RetrofitClient
