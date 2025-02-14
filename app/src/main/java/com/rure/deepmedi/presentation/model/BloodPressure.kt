@@ -1,7 +1,10 @@
 package com.rure.deepmedi.presentation.model
 
-class HeartPressure(
+import com.rure.deepmedi.data.entity.AttributeTag
+
+class BloodPressure(
     valueStr: String,
+    override val tag: AttributeTag,
     override val lastUpdateTs: Long
 ): Attribute<Pair<Int, Int>>() {
     override val value = valueStr.split(",")[0].toInt() to valueStr.split(",")[1].toInt()
