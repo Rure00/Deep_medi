@@ -9,6 +9,7 @@ import androidx.camera.view.PreviewView
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -24,6 +26,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -48,6 +51,8 @@ import com.rure.deepmedi.presentation.state.ApiIntent
 import com.rure.deepmedi.presentation.utils.MyCameraX
 import com.rure.deepmedi.ui.theme.Gray
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPermissionsApi::class)
@@ -76,6 +81,16 @@ fun CameraScreen(
         }
     }
 
+    val rippleScope = rememberCoroutineScope()
+    var doTakingPicture by remember { mutableStateOf(false) }
+    fun rippleScreen() {
+        rippleScope.launch {
+            doTakingPicture = true
+            delay(500L)
+            doTakingPicture = false
+        }
+    }
+
     LaunchedEffect(Unit) {
         if(permissions.allPermissionsGranted) {
             cameraX.initialize(context = context)
@@ -94,6 +109,8 @@ fun CameraScreen(
             cameraX.unBindCamera()
         }
     }
+
+
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -119,7 +136,11 @@ fun CameraScreen(
                             width = 1.dp,
                             color = Gray,
                             shape = CircleShape
-                        ).clickable {
+                        ).clickable(
+                            indication = rememberRipple(bounded = true, color = Gray),
+                            interactionSource = remember { MutableInteractionSource() }
+                        ) {
+                            rippleScreen()
                             cameraX.takePicture { name ->
                                 val imageFile = cameraX.getImage(name)
                                 if(imageFile != null) {
@@ -135,6 +156,12 @@ fun CameraScreen(
             Spacer(modifier = Modifier.height(33.dp))
         }
 
+    }
+
+    if(doTakingPicture) {
+        Box(
+            modifier = Modifier.fillMaxSize().background(Color.Black.copy(alpha = 0.7f))
+        )
     }
 
 
