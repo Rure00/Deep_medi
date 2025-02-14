@@ -13,6 +13,7 @@ val Pink40 = Color(0xFF7D5260)
 val Gray = Color(0xFF656565)
 val TextGray = Color(0xFF98A2B2)
 val Black = Color(0xFF000000)
+val White = Color(0xFFFFFFFF)
 
 val ChipDanger= Color(0xFFFF1E56)
 val ChipWarning = Color(0xFFFDB4B1)
