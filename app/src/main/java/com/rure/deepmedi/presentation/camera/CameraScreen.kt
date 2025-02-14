@@ -147,6 +147,7 @@ fun CameraScreen(
                                 val imageFile = cameraX.getImage(name)
                                 if(imageFile != null) {
                                     mainViewModel.emit(ApiIntent.SendImage(imageFile))
+                                    toHome()
                                 } else {
                                     Toast.makeText(context, context.getString(R.string.fail_taking_picture_guide), Toast.LENGTH_SHORT).show()
                                 }
