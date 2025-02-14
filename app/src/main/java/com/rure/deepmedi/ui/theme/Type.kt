@@ -34,7 +34,7 @@ val Typography = Typography(
     ),
     bodySmall = TextStyle(
         fontFamily = pretendard,
-        fontWeight = FontWeight.SemiBold,
+        fontWeight = FontWeight.Normal,
         fontSize = 12.sp
     ),
     labelLarge = TextStyle(

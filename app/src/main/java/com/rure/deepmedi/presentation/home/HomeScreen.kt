@@ -9,6 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.rure.deepmedi.R
+import com.rure.deepmedi.ui.theme.Typography
 
 @Composable
 fun HomeScreen(
@@ -17,11 +18,14 @@ fun HomeScreen(
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.Start
     ) {
         Text(
             text = stringResource(R.string.home_need_attention_guide),
-
+            style = Typography.titleMedium,
+            color =
         )
+
+
     }
 }
