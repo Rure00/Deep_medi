@@ -7,6 +7,8 @@ import com.rure.deepmedi.data.entity.TokenList
 import com.rure.deepmedi.data.entity.UserAttribute
 import com.rure.deepmedi.data.entity.UserData
 import com.rure.deepmedi.domain.repository.RetrofitApiRepository
+import com.rure.deepmedi.domain.usercase.GetAttributeUseCase
+import com.rure.deepmedi.presentation.model.Attribute
 import com.rure.deepmedi.presentation.state.ApiIntent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,6 +27,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val repository: RetrofitApiRepository,
+    private val getAttributeUseCase: GetAttributeUseCase
 ): ViewModel() {
 
     private val _userDataState = MutableStateFlow<UserData?>(null)
@@ -33,7 +36,7 @@ class MainViewModel @Inject constructor(
     private val _tokenListState = MutableStateFlow<TokenList?>(null)
     val tokenListState = _tokenListState.asStateFlow()
 
-    private val _userAttrState = MutableStateFlow<List<UserAttribute>>(listOf())
+    private val _userAttrState = MutableStateFlow<List<Attribute<*>>>(listOf())
     val userAttrState = _userAttrState.asStateFlow()
 
     fun emit(intent: ApiIntent) {
@@ -79,6 +82,12 @@ class MainViewModel @Inject constructor(
 
     private fun retrieveUserAttr(userId: String) {
         viewModelScope.launch {
+            tokenListState.value?.let {
+                getAttributeUseCase.invoke(it, userId)
+                    .onSuccess { list ->
+                        _userAttrState.value = list
+                    }
+            }
 
         }
     }

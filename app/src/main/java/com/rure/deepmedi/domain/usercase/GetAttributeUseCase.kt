@@ -20,7 +20,6 @@ class GetAttributeUseCase @Inject constructor(
     private val tag = "GetAttributeUseCase"
 
     suspend operator fun invoke(tokenList: TokenList, userId: String) = kotlin.runCatching {
-        val attrList = mutableListOf<Attribute<*>>()
         withContext(ioDispatcher) {
             retrofitApiRepository.retrieveUserAttribute(tokenList.token, userId).getOrThrow().map {
                 when(it.key) {
@@ -29,10 +28,8 @@ class GetAttributeUseCase @Inject constructor(
                     AttributeTag.Gender -> GenderAttr(it.value.value.toInt(), it.key, it.value.lastUpdateTs.toLong())
                     AttributeTag.HeartRate -> HeartRateAttr(it.value.value, it.key, it.value.lastUpdateTs.toLong())
                 }
-            }
+            }.toList()
         }
-
-        attrList
     }.onFailure {
         Log.e(tag, "GetAttributeUseCase error: ${it.message}")
     }
