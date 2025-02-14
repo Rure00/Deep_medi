@@ -36,6 +36,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberMultiplePermissionsState
+import com.google.accompanist.permissions.rememberPermissionState
 import com.rure.deepmedi.MainActivity
 import com.rure.deepmedi.R
 import com.rure.deepmedi.presentation.CameraViewModel
@@ -46,6 +50,7 @@ import com.rure.deepmedi.ui.theme.Gray
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun CameraScreen(
     context: Context = LocalContext.current,
@@ -60,15 +65,31 @@ fun CameraScreen(
     val previewView = remember { mutableStateOf<PreviewView?>(null) }
     val facing = cameraX.getFacingState().collectAsState()
 
-    LaunchedEffect(Unit) {
+    val permissions = rememberMultiplePermissionsState(
+        listOf(android.Manifest.permission.CAMERA, android.Manifest.permission.READ_EXTERNAL_STORAGE)
+    ) {
         cameraX.initialize(context = context)
         previewView.value = cameraX.getPreviewView()
-    }
 
-    DisposableEffect(facing.value) {
         cameraScope.launch(Dispatchers.Main) {
             cameraX.startCamera(lifecycleOwner = lifecycleOwner)
         }
+    }
+
+    LaunchedEffect(Unit) {
+        if(permissions.allPermissionsGranted) {
+            cameraX.initialize(context = context)
+            previewView.value = cameraX.getPreviewView()
+
+            cameraScope.launch(Dispatchers.Main) {
+                cameraX.startCamera(lifecycleOwner = lifecycleOwner)
+            }
+        } else {
+            permissions.launchMultiplePermissionRequest()
+        }
+    }
+
+    DisposableEffect(facing.value) {
         onDispose {
             cameraX.unBindCamera()
         }
