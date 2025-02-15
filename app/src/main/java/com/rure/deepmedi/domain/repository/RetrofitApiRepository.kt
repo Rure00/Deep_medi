@@ -1,5 +1,6 @@
 package com.rure.deepmedi.domain.repository
 
+import com.rure.deepmedi.data.entity.AttributeTag
 import com.rure.deepmedi.data.entity.Entity
 import com.rure.deepmedi.data.entity.TokenList
 import com.rure.deepmedi.data.entity.UserAttribute
@@ -21,5 +22,5 @@ interface RetrofitApiRepository {
     suspend fun retrieveUserAttribute(
         token: String,
         userId: String
-    ): Result<List<UserAttribute>>
+    ): Result<Map<AttributeTag, UserAttribute>>
 }

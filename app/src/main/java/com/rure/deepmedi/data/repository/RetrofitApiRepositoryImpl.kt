@@ -1,5 +1,7 @@
 package com.rure.deepmedi.data.repository
 
+import android.util.Log
+import com.rure.deepmedi.data.entity.AttributeTag
 import com.rure.deepmedi.data.entity.Entity
 import com.rure.deepmedi.data.entity.TokenList
 import com.rure.deepmedi.data.entity.UserAttribute
@@ -12,6 +14,7 @@ import javax.inject.Inject
 class RetrofitApiRepositoryImpl @Inject constructor(
     private val apiDataSource: ApiDataSource
 ): RetrofitApiRepository {
+    private val tag = "RetrofitApiRepositoryImpl"
     override suspend fun uploadImageFile(file: MultipartBody.Part): Result<UserData> {
         return apiDataSource.uploadImageFile(file)
     }
@@ -24,8 +27,20 @@ class RetrofitApiRepositoryImpl @Inject constructor(
         return apiDataSource.getUserInformation(token)
     }
 
-    override suspend fun retrieveUserAttribute(token: String, userId: String): Result<List<UserAttribute>> {
-        return  apiDataSource.retrieveUserAttribute(token, userId)
+    override suspend fun retrieveUserAttribute(token: String, userId: String): Result<Map<AttributeTag, UserAttribute>> {
+        return  kotlin.runCatching {
+            val list = apiDataSource.retrieveUserAttribute(token, userId).getOrThrow()
+
+            mutableMapOf<AttributeTag, UserAttribute>().apply {
+                list.forEach {
+                    put(AttributeTag.getFromTag(it.key)!!, it)
+                }
+            }
+        }.onFailure {
+            Log.e(tag, "fail to retrieveUserAttribute) ${it.message}")
+            it.printStackTrace()
+            throw it
+        }
     }
 
 }

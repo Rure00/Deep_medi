@@ -13,8 +13,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.rure.deepmedi.presentation.camera.CameraPreviewScreen
 import com.rure.deepmedi.presentation.camera.CameraScreen
+import com.rure.deepmedi.presentation.home.HomeScreen
 import com.rure.deepmedi.ui.theme.DeepMediTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -29,7 +29,7 @@ class MainActivity : ComponentActivity() {
                     Box(
                         modifier = Modifier.padding(innerPadding)
                     ) {
-                        CameraScreen()
+                        HomeScreen {  }
                     }
                 }
             }
