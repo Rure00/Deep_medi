@@ -64,11 +64,9 @@ fun HomeScreen(
     val userAttribute by mainViewModel.userAttrState.collectAsState()
     val gender by remember { derivedStateOf {
         userAttribute.find(AttributeTag.Gender) as GenderAttr?
-            ?: GenderAttr.emptyObject()
     } }
     val birth by remember { derivedStateOf {
         userAttribute.find(AttributeTag.Birth) as BirthAttr?
-            ?: BirthAttr.emptyObject()
     } }
     val heartRate by remember { derivedStateOf {
         userAttribute.find(AttributeTag.HeartRate) as HeartRateAttr?
@@ -101,7 +99,7 @@ fun HomeScreen(
             verticalAlignment = Alignment.Bottom
         ) {
             Text(
-                text = stringResource(R.string.gender_birth_text, birth.value.calculateAge(), gender.value),
+                text = stringResource(R.string.gender_birth_text, birth?.value?.calculateAge() ?: 0, gender?.value ?: "OO"),
                 style = Typography.bodySmall,
                 fontWeight = FontWeight.SemiBold,
                 color = TextLightGray
