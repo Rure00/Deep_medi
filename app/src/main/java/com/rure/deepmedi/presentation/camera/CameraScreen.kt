@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -41,6 +42,7 @@ import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.rure.deepmedi.MainActivity
 import com.rure.deepmedi.R
 import com.rure.deepmedi.presentation.MainViewModel
+import com.rure.deepmedi.presentation.component.LoadingDialog
 import com.rure.deepmedi.presentation.state.ApiIntent
 import com.rure.deepmedi.presentation.utils.MyCameraX
 import com.rure.deepmedi.ui.theme.Gray
@@ -76,15 +78,7 @@ fun CameraScreen(
         }
     }
 
-    val rippleScope = rememberCoroutineScope()
     var doTakingPicture by remember { mutableStateOf(false) }
-    fun rippleScreen() {
-        rippleScope.launch {
-            doTakingPicture = true
-            delay(500L)
-            doTakingPicture = false
-        }
-    }
 
     LaunchedEffect(Unit) {
         if(permissions.allPermissionsGranted) {
@@ -140,18 +134,26 @@ fun CameraScreen(
                             indication = rememberRipple(bounded = true, color = Gray),
                             interactionSource = remember { MutableInteractionSource() }
                         ) {
-                            rippleScreen()
+                            doTakingPicture = true
                             cameraX.takePicture { name ->
                                 val imageFile = cameraX.getImage(name)
                                 if(imageFile != null) {
                                     mainViewModel.emit(
                                         ApiIntent.SendImage(imageFile) { result ->
                                             if(result != null) toHome(result.email, result.password)
+                                            else
+                                                Toast.makeText(
+                                                    context,
+                                                    context.getString(R.string.fail_sending_image_guide),
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                            doTakingPicture = false
                                         }
                                     )
 
                                 } else {
                                     Toast.makeText(context, context.getString(R.string.fail_taking_picture_guide), Toast.LENGTH_SHORT).show()
+                                    doTakingPicture = false
                                 }
                             }
                         }
@@ -160,13 +162,10 @@ fun CameraScreen(
 
             Spacer(modifier = Modifier.height(33.toDesignDp()))
         }
-
     }
 
     if(doTakingPicture) {
-        Box(
-            modifier = Modifier.fillMaxSize().background(Color.Black.copy(alpha = 0.7f))
-        )
+        LoadingDialog()
     }
 
 

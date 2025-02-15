@@ -19,7 +19,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,6 +36,7 @@ import com.rure.deepmedi.MainActivity
 import com.rure.deepmedi.R
 import com.rure.deepmedi.data.entity.AttributeTag
 import com.rure.deepmedi.presentation.MainViewModel
+import com.rure.deepmedi.presentation.component.LoadingDialog
 import com.rure.deepmedi.presentation.home.component.BloodPressureAttrBox
 import com.rure.deepmedi.presentation.home.component.HeartRateAttrBox
 import com.rure.deepmedi.presentation.model.BirthAttr
@@ -56,8 +59,9 @@ fun HomeScreen(
     mainViewModel: MainViewModel = hiltViewModel(),
     toCamera: () -> Unit
 ) {
-    val userAttribute by mainViewModel.userAttrState.collectAsState()
+    var showLoadingDialog by remember { mutableStateOf(false) }
 
+    val userAttribute by mainViewModel.userAttrState.collectAsState()
     val gender by remember { derivedStateOf {
         userAttribute.find(AttributeTag.Gender) as GenderAttr?
             ?: GenderAttr.emptyObject()
@@ -73,8 +77,11 @@ fun HomeScreen(
         userAttribute.find(AttributeTag.BloodPressure) as BloodPressureAttr?
     } }
 
-    LaunchedEffect(true) {
+    LaunchedEffect(userAttribute) {
+        showLoadingDialog = true
         mainViewModel.emit(ApiIntent.RetrieveUserAttr(loginId, password))
+
+        if(userAttribute.isNotEmpty()) showLoadingDialog = false
     }
 
     Column(
@@ -137,6 +144,9 @@ fun HomeScreen(
                     .padding(vertical = 40.toDesignDp(), horizontal = 68.toDesignDp())
             )
         }
+    }
 
+    if(showLoadingDialog) {
+        LoadingDialog()
     }
 }

@@ -114,7 +114,7 @@ fun BloodPressureAttrBox(
                     color = Black,
                     modifier = Modifier.alignByBaseline()
                 )
-                Spacer(modifier = Modifier.width(30.dp))
+                Spacer(modifier = Modifier.width(30.toDesignDp()))
 
                 Text(
                     text = bloodPressureAttr.dia.toString(),
