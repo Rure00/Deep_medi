@@ -34,12 +34,13 @@ import com.rure.deepmedi.ui.theme.TextGray
 import com.rure.deepmedi.ui.theme.Typography
 import com.rure.deepmedi.ui.theme.White
 import com.rure.deepmedi.utils.dropShadow
+import com.rure.deepmedi.utils.toDesignDp
 
 @Composable
 fun BloodPressureAttrBox(
     bloodPressureAttr: BloodPressureAttr
 ) {
-    val itemBackgroundShape = remember { RoundedCornerShape(30.dp) }
+    val itemBackgroundShape = remember { RoundedCornerShape(30.toDesignDp()) }
     val backgroundGradient = remember {  Brush.verticalGradient(listOf(White, White.copy(alpha = 0f))) }
     val borderGradient = remember { Brush.verticalGradient(listOf(White, White.copy(alpha = 0f), White.copy(alpha = 0.77f))) }
 
@@ -80,7 +81,7 @@ fun BloodPressureAttrBox(
             Image(
                 imageVector = ImageVector.vectorResource(R.drawable.edit_icon),
                 contentDescription = null,
-                modifier = Modifier.size(36.dp)
+                modifier = Modifier.size(36.toDesignDp())
             )
 
             Spacer(modifier = Modifier.weight(1f))
@@ -108,7 +109,7 @@ fun BloodPressureAttrBox(
                     text = stringResource(R.string.sys_text),
                     style = Typography.labelSmall,
                     fontWeight = FontWeight.SemiBold,
-                    lineHeight = 60.sp,
+//                    lineHeight = 60.sp,
                     color = Black,
                 )
                 Spacer(modifier = Modifier.width(30.dp))
@@ -123,7 +124,7 @@ fun BloodPressureAttrBox(
                     text = stringResource(R.string.dia_text),
                     style = Typography.labelSmall,
                     fontWeight = FontWeight.SemiBold,
-                    lineHeight = 60.sp,
+//                    lineHeight = 60.sp,
                     color = Black,
                 )
             }

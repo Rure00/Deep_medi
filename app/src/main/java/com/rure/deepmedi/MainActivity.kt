@@ -37,14 +37,8 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
 
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    val pagerState = rememberPagerState(0, 0f) {
-                        Destination::class.nestedClasses.size
-                    }
-
-                    HorizontalPager(
+                    Box(
                         modifier = Modifier.padding(innerPadding),
-                        state = pagerState,
-                        userScrollEnabled = false
                     ) {
                         NavHost(
                             navController,
@@ -58,21 +52,5 @@ class MainActivity : ComponentActivity() {
 
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    DeepMediTheme {
-        Greeting("Android")
     }
 }

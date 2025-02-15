@@ -36,12 +36,13 @@ import com.rure.deepmedi.ui.theme.TextGray
 import com.rure.deepmedi.ui.theme.Typography
 import com.rure.deepmedi.ui.theme.White
 import com.rure.deepmedi.utils.dropShadow
+import com.rure.deepmedi.utils.toDesignDp
 
 @Composable
 fun HeartRateAttrBox(
     heartRateAttr: HeartRateAttr
 ) {
-    val itemBackgroundShape = remember { RoundedCornerShape(30.dp) }
+    val itemBackgroundShape = remember { RoundedCornerShape(30.toDesignDp()) }
     val backgroundGradient = remember {  Brush.verticalGradient(listOf(White, White.copy(alpha = 0f))) }
     val borderGradient = remember { Brush.verticalGradient(listOf(White, White.copy(alpha = 0f), White.copy(alpha = 0.77f))) }
 
@@ -103,7 +104,7 @@ fun HeartRateAttrBox(
                     style = Typography.bodySmall,
                     fontWeight = FontWeight.SemiBold,
                     color = Black,
-                    lineHeight = 60.sp
+//                    lineHeight = 60.sp
                 )
             }
 

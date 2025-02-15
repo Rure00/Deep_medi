@@ -15,14 +15,20 @@ fun NavGraphBuilder.mainNavGraph(navController: NavController) {
         composable(route = Destination.Camera.route) {
             CameraScreen(
                 toHome = {
-                    navController.navigate(Destination.Home.route)
+                    navController.navigate(Destination.Home.route) {
+                        popUpTo(Destination.Home.route) { inclusive = true } // Home 화면을 백스택에서 제거
+                        launchSingleTop = true
+                    }
                 }
             )
         }
         composable(route = Destination.Home.route) {
             HomeScreen(
                 toCamera = {
-                    navController.navigate(Destination.Camera.route)
+                    navController.navigate(Destination.Camera.route) {
+                        popUpTo(Destination.Home.route) { inclusive = true } // Home 화면을 백스택에서 제거
+                        launchSingleTop = true
+                    }
                 }
             )
         }
