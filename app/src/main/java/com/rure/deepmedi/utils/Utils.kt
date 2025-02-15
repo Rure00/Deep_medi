@@ -17,8 +17,12 @@ import androidx.compose.ui.unit.sp
 import java.time.LocalDate
 import java.time.Period
 
-fun Int.designDp(): Dp = (this * (160f / 320f)).dp
-fun Int.designSp(): TextUnit = (this * (160f / 320f)).sp
+//fun Int.designDp(): Dp = (this * (160f / 320f)).dp
+//fun Int.designSp(): TextUnit = (this * (160f / 320f)).sp
+
+private const val DESIGN_DPI = 320f
+
+fun Int.toPaddingValue(): Dp = (this * (160f / DESIGN_DPI)).dp
 
 fun LocalDate.calculateAge(): Int {
     val currentDate = LocalDate.now()

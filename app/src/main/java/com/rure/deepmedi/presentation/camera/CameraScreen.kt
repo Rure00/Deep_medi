@@ -13,9 +13,14 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
@@ -32,7 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import com.rure.deepmedi.utils.designDp
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -48,6 +53,7 @@ import com.rure.deepmedi.presentation.MainViewModel
 import com.rure.deepmedi.presentation.state.ApiIntent
 import com.rure.deepmedi.presentation.utils.MyCameraX
 import com.rure.deepmedi.ui.theme.Gray
+import com.rure.deepmedi.utils.toPaddingValue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
@@ -118,21 +124,26 @@ fun CameraScreen(
         previewView.value?.let { preview ->
             AndroidView(modifier = Modifier.fillMaxSize(), factory = { preview }) {}
         }
-        Column {
+
+
+        Column(
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 305.toPaddingValue())
+        ) {
             Box(
                 modifier = Modifier
-                    .size(110.designDp())
+                    .fillMaxWidth().aspectRatio(1f)
                     .clip(CircleShape)
-                    .background(Color.White),
+                    .background(Color.White)
+                    .padding(11.toPaddingValue()),
                 contentAlignment = Alignment.Center
             ) {
                 Box(
                     modifier = Modifier
-                        .size(88.designDp())
+                        .fillMaxWidth().aspectRatio(1f)
                         .clip(CircleShape)
                         .background(Color.White)
                         .border(
-                            width = 2.designDp(),
+                            width = 2.dp,
                             color = Gray,
                             shape = CircleShape
                         ).clickable(
@@ -153,7 +164,7 @@ fun CameraScreen(
                 )
             }
 
-            Spacer(modifier = Modifier.height(33.designDp()))
+            Spacer(modifier = Modifier.height(33.toPaddingValue()))
         }
 
     }

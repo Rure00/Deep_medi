@@ -35,7 +35,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
-import com.rure.deepmedi.utils.designDp
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.rure.deepmedi.MainActivity
 import com.rure.deepmedi.R
@@ -57,7 +58,6 @@ import com.rure.deepmedi.ui.theme.Typography
 import com.rure.deepmedi.ui.theme.White
 import com.rure.deepmedi.ui.theme.pretendard
 import com.rure.deepmedi.utils.calculateAge
-import com.rure.deepmedi.utils.designSp
 
 @Composable
 fun HomeScreen(
@@ -100,9 +100,9 @@ fun HomeScreen(
 //            modifier = Modifier.fillMaxSize()
 //                .background(
 //                    brush = Brush.verticalGradient(listOf(White, HomeBackgroundBlur.copy(alpha = 0f)))
-//                ).blur(20.designDp())
+//                ).blur(20.dp)
 //                .border(
-//                    width = 1.designDp(),
+//                    width = 1.dp,
 //                    brush = Brush.verticalGradient(listOf(White, White.copy(alpha = 0f))),
 //                    shape = RectangleShape
 //                )
@@ -110,7 +110,7 @@ fun HomeScreen(
 //    }
 
     Column(
-        modifier = Modifier.fillMaxSize().padding(top = 124.designDp(), start = 60.designDp(), end = 60.designDp()),
+        modifier = Modifier.fillMaxSize().padding(top = 124.dp, start = 60.dp, end = 60.dp),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.Start
     ) {
@@ -119,7 +119,7 @@ fun HomeScreen(
             style = Typography.titleMedium,
             color = Black
         )
-        Spacer(modifier = Modifier.height(12.designDp()))
+        Spacer(modifier = Modifier.height(12.dp))
         Row(
             modifier = Modifier.wrapContentSize(),
             verticalAlignment = Alignment.Bottom
@@ -138,11 +138,11 @@ fun HomeScreen(
             )
         }
 
-        Spacer(modifier = Modifier.height(20.designDp()))
+        Spacer(modifier = Modifier.height(20.dp))
 
         Column(
             modifier = Modifier.fillMaxWidth().wrapContentSize(),
-            verticalArrangement = Arrangement.spacedBy(12.designDp())
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             heartRate?.let { HeartRateAttrBox(it) }
             bloodPressure?.let { BloodPressureAttrBox(it) }
@@ -157,14 +157,14 @@ fun HomeScreen(
             Text(
                 text = stringResource(R.string.home_text),
                 fontFamily = pretendard,
-                fontSize = 30.designSp(),
+                fontSize = 30.sp,
                 fontWeight = FontWeight.SemiBold,
-                lineHeight = 45.designSp(),
+                lineHeight = 45.sp,
                 modifier = Modifier
                     .clickable {
                         toCamera()
                     }
-                    .padding(vertical = 40.designDp(), horizontal = 68.designDp())
+                    .padding(vertical = 40.dp, horizontal = 68.dp)
             )
         }
 

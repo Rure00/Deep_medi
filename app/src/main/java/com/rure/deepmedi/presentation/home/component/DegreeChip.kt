@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import com.rure.deepmedi.utils.designDp
+import androidx.compose.ui.unit.dp
 import com.rure.deepmedi.presentation.model.Degree
 import com.rure.deepmedi.ui.theme.Typography
 
@@ -23,9 +23,9 @@ fun DegreeChip(
     Box(
         modifier = Modifier
             .wrapContentSize()
-            .clip(RoundedCornerShape(35.designDp()))
+            .clip(RoundedCornerShape(35.dp))
             .background(color = degree.color)
-            .padding(horizontal = 22.designDp(), vertical = 8.designDp()),
+            .padding(horizontal = 22.dp, vertical = 8.dp),
         contentAlignment = Alignment.Center
     ) {
         Text(
