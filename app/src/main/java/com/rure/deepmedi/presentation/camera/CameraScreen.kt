@@ -33,6 +33,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -51,9 +52,9 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun CameraScreen(
-    toHome: () -> Unit,
+    toHome: (String, String) -> Unit,
     context: Context = LocalContext.current,
-    mainViewModel: MainViewModel = viewModel(context as MainActivity)
+    mainViewModel: MainViewModel = hiltViewModel()
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
     val cameraScope = rememberCoroutineScope()
@@ -143,8 +144,12 @@ fun CameraScreen(
                             cameraX.takePicture { name ->
                                 val imageFile = cameraX.getImage(name)
                                 if(imageFile != null) {
-                                    mainViewModel.emit(ApiIntent.SendImage(imageFile))
-                                    toHome()
+                                    mainViewModel.emit(
+                                        ApiIntent.SendImage(imageFile) { result ->
+                                            if(result != null) toHome(result.email, result.password)
+                                        }
+                                    )
+
                                 } else {
                                     Toast.makeText(context, context.getString(R.string.fail_taking_picture_guide), Toast.LENGTH_SHORT).show()
                                 }

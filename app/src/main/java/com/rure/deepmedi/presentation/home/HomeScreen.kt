@@ -28,6 +28,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.rure.deepmedi.MainActivity
 import com.rure.deepmedi.R
@@ -50,11 +51,11 @@ import com.rure.deepmedi.utils.toDesignDp
 
 @Composable
 fun HomeScreen(
-    context: Context = LocalContext.current,
-    mainViewModel: MainViewModel = viewModel(context as MainActivity),
+    loginId: String,
+    password: String,
+    mainViewModel: MainViewModel = hiltViewModel(),
     toCamera: () -> Unit
 ) {
-    val userData by mainViewModel.userDataState.collectAsState()
     val userAttribute by mainViewModel.userAttrState.collectAsState()
 
     val gender by remember { derivedStateOf {
@@ -72,31 +73,9 @@ fun HomeScreen(
         userAttribute.find(AttributeTag.BloodPressure) as BloodPressureAttr?
     } }
 
-    LaunchedEffect(userData) {
-        userData?.let {
-            mainViewModel.emit(ApiIntent.RetrieveUserAttr(it))
-        }
+    LaunchedEffect(true) {
+        mainViewModel.emit(ApiIntent.RetrieveUserAttr(loginId, password))
     }
-
-    //TODO: 배경 화면 Vector file 오류
-//    Box(
-//        modifier = Modifier.fillMaxSize()
-//    ) {
-//        Image(
-//            imageVector = ImageVector.vectorResource(R.drawable.home_background),
-//            contentDescription = null,
-//            contentScale = ContentScale.FillHeight,
-//            modifier = Modifier.fillMaxSize()
-//                .background(
-//                    brush = Brush.verticalGradient(listOf(White, HomeBackgroundBlur.copy(alpha = 0f)))
-//                ).blur(20.dp)
-//                .border(
-//                    width = 1.dp,
-//                    brush = Brush.verticalGradient(listOf(White, White.copy(alpha = 0f))),
-//                    shape = RectangleShape
-//                )
-//        )
-//    }
 
     Column(
         modifier = Modifier.fillMaxSize()
