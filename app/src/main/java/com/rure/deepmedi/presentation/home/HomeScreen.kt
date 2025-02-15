@@ -84,7 +84,6 @@ fun HomeScreen(
     } }
 
     LaunchedEffect(userData) {
-        Log.d("HomeScreen", "userData?: ${userData != null}")
         userData?.let {
             mainViewModel.emit(ApiIntent.RetrieveUserAttr(it))
         }
@@ -126,7 +125,7 @@ fun HomeScreen(
             verticalAlignment = Alignment.Bottom
         ) {
             Text(
-                text = stringResource(R.string.gender_birth_text, birth?.value!!.calculateAge(), gender.value),
+                text = stringResource(R.string.gender_birth_text, birth.value.calculateAge(), gender.value),
                 style = Typography.bodySmall,
                 fontWeight = FontWeight.SemiBold,
                 color = Black
@@ -149,17 +148,25 @@ fun HomeScreen(
             bloodPressure?.let { BloodPressureAttrBox(it) }
         }
 
-        Text(
-            text = stringResource(R.string.home_text),
-            fontFamily = pretendard,
-            fontSize = 30.designSp(),
-            fontWeight = FontWeight.SemiBold,
-            lineHeight = 45.designSp(),
-            modifier = Modifier
-                .clickable {
-                    toCamera()
-                }
-                .padding(vertical = 40.designDp(), horizontal = 68.designDp())
-        )
+        Spacer(modifier = Modifier.weight(1f))
+
+        Box(
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = stringResource(R.string.home_text),
+                fontFamily = pretendard,
+                fontSize = 30.designSp(),
+                fontWeight = FontWeight.SemiBold,
+                lineHeight = 45.designSp(),
+                modifier = Modifier
+                    .clickable {
+                        toCamera()
+                    }
+                    .padding(vertical = 40.designDp(), horizontal = 68.designDp())
+            )
+        }
+
     }
 }

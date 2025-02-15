@@ -90,7 +90,6 @@ class ApiDataSource @Inject constructor(
         userId: String
     ): Result<List<UserAttribute>> {
         return kotlin.runCatching {
-            Log.d("HomeScreen", "userId: $userId")
             val response = apiService.retrieveUserAttributes("Bearer $token", userId)
 
             if(response.isSuccessful && response.code() == 200) {
