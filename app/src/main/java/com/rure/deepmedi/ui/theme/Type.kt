@@ -6,8 +6,9 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
+import com.rure.deepmedi.utils.designSp
 import com.rure.deepmedi.R
+import com.rure.deepmedi.utils.designDp
 
 val pretendard = FontFamily(
     Font(R.font.pretendard_light, FontWeight.Light, FontStyle.Normal),
@@ -20,37 +21,42 @@ val Typography = Typography(
     titleMedium = TextStyle(
         fontFamily = pretendard,
         fontWeight = FontWeight.SemiBold,
-        fontSize = 21.sp
+        fontSize = 42.designSp(),
+        lineHeight = 63.designSp()
     ),
     bodyLarge = TextStyle(
         fontFamily = pretendard,
         fontWeight = FontWeight.SemiBold,
-        fontSize = 20.sp
+        fontSize = 40.designSp(),
+        lineHeight = 60.designSp()
     ),
     bodyMedium = TextStyle(
         fontFamily = pretendard,
         fontWeight = FontWeight.SemiBold,
-        fontSize = 18.sp
+        fontSize = 36.designSp()
     ),
     bodySmall = TextStyle(
         fontFamily = pretendard,
         fontWeight = FontWeight.Normal,
-        fontSize = 12.sp
+        fontSize = 24.designSp(),
+        lineHeight = 36.designSp()
     ),
     labelLarge = TextStyle(
         fontFamily = pretendard,
         fontWeight = FontWeight.Normal,
-        fontSize = 10.sp
+        fontSize = 20.designSp(),
+        lineHeight = 30.designSp()
     ),
     labelMedium = TextStyle(
         fontFamily = pretendard,
         fontWeight = FontWeight.Normal,
-        fontSize = 8.sp
+        fontSize = 16.designSp()
     ),
     labelSmall = TextStyle(
         fontFamily = pretendard,
         fontWeight = FontWeight.Normal,
-        fontSize = 7.sp
+        fontSize = 14.designSp(),
+        lineHeight = 24.designSp()
     )
 
 

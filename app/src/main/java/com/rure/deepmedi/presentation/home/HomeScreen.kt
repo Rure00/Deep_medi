@@ -1,7 +1,11 @@
 package com.rure.deepmedi.presentation.home
 
 import android.content.Context
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -18,10 +22,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
+import com.rure.deepmedi.utils.designDp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.rure.deepmedi.MainActivity
 import com.rure.deepmedi.R
@@ -36,8 +47,10 @@ import com.rure.deepmedi.presentation.model.GenderAttr
 import com.rure.deepmedi.presentation.model.HeartRateAttr
 import com.rure.deepmedi.presentation.model.find
 import com.rure.deepmedi.ui.theme.Black
+import com.rure.deepmedi.ui.theme.HomeBackgroundBlur
 import com.rure.deepmedi.ui.theme.TextLightGray
 import com.rure.deepmedi.ui.theme.Typography
+import com.rure.deepmedi.ui.theme.White
 import com.rure.deepmedi.utils.calculateAge
 
 @Composable
@@ -62,8 +75,28 @@ fun HomeScreen(
         userAttribute.find(AttributeTag.BloodPressure) as BloodPressureAttr
     } }
 
+    //TODO: Vector file 오류
+//    Box(
+//        modifier = Modifier.fillMaxSize()
+//    ) {
+//        Image(
+//            imageVector = ImageVector.vectorResource(R.drawable.home_background),
+//            contentDescription = null,
+//            contentScale = ContentScale.FillHeight,
+//            modifier = Modifier.fillMaxSize()
+//                .background(
+//                    brush = Brush.verticalGradient(listOf(White, HomeBackgroundBlur.copy(alpha = 0f)))
+//                ).blur(20.designDp())
+//                .border(
+//                    width = 1.designDp(),
+//                    brush = Brush.verticalGradient(listOf(White, White.copy(alpha = 0f))),
+//                    shape = RectangleShape
+//                )
+//        )
+//    }
+
     Column(
-        modifier = Modifier.fillMaxSize().padding(top = 124.dp, start = 60.dp, end = 60.dp),
+        modifier = Modifier.fillMaxSize().padding(top = 124.designDp(), start = 60.designDp(), end = 60.designDp()),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.Start
     ) {
@@ -72,7 +105,7 @@ fun HomeScreen(
             style = Typography.titleMedium,
             color = Black
         )
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(12.designDp()))
         Row(
             modifier = Modifier.wrapContentSize(),
             verticalAlignment = Alignment.Bottom
@@ -91,11 +124,11 @@ fun HomeScreen(
             )
         }
 
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(20.designDp()))
 
         Column(
             modifier = Modifier.fillMaxWidth().wrapContentSize(),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            verticalArrangement = Arrangement.spacedBy(12.designDp())
         ) {
             HeartRateAttrBox(heartRate)
             BloodPressureAttrBox(bloodPressure)

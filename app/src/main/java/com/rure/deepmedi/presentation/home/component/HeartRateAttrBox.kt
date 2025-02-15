@@ -23,7 +23,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import com.rure.deepmedi.utils.designDp
 import com.rure.deepmedi.R
 import com.rure.deepmedi.data.entity.AttributeTag
 import com.rure.deepmedi.presentation.model.Attribute
@@ -34,13 +34,14 @@ import com.rure.deepmedi.ui.theme.Black
 import com.rure.deepmedi.ui.theme.TextGray
 import com.rure.deepmedi.ui.theme.Typography
 import com.rure.deepmedi.ui.theme.White
+import com.rure.deepmedi.utils.designSp
 import com.rure.deepmedi.utils.dropShadow
 
 @Composable
 fun HeartRateAttrBox(
     heartRateAttr: HeartRateAttr
 ) {
-    val itemBackgroundShape = remember { RoundedCornerShape(30.dp) }
+    val itemBackgroundShape = remember { RoundedCornerShape(30.designDp()) }
     val backgroundGradient = remember {  Brush.verticalGradient(listOf(White, White.copy(alpha = 0f))) }
     val borderGradient = remember { Brush.verticalGradient(listOf(White, White.copy(alpha = 0f), White.copy(alpha = 0.77f))) }
 
@@ -52,19 +53,17 @@ fun HeartRateAttrBox(
                 shape =  itemBackgroundShape
             )
             .border(
-                width = 1.dp,
+                width = 1.designDp(),
                 brush = borderGradient,
                 shape = itemBackgroundShape
             )
             .dropShadow(
                 shape = itemBackgroundShape,
-                blur = 4.dp,
+                blur = 4.designDp(),
                 color = BackgroundBlurColor,
                 alpha = 0.07f
             )
-            .padding(vertical = 13.dp, horizontal = 22.dp)
-
-        ,
+            .padding(vertical = 13.designDp(), horizontal = 22.designDp()),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween
     ) {
@@ -83,7 +82,7 @@ fun HeartRateAttrBox(
             DegreeChip(heartRateAttr.hrDegree)
         }
 
-        Spacer(modifier = Modifier.height(4.dp))
+        Spacer(modifier = Modifier.height(4.designDp()))
 
         Row(
             modifier = Modifier,
@@ -104,6 +103,7 @@ fun HeartRateAttrBox(
                     style = Typography.bodySmall,
                     fontWeight = FontWeight.SemiBold,
                     color = Black,
+                    lineHeight = 36.designSp()
                 )
             }
 

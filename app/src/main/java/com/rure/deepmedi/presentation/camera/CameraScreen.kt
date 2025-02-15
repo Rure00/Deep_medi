@@ -32,10 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
+import com.rure.deepmedi.utils.designDp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -124,18 +121,18 @@ fun CameraScreen(
         Column {
             Box(
                 modifier = Modifier
-                    .size(55.dp)
+                    .size(55.designDp())
                     .clip(CircleShape)
                     .background(Color.White),
                 contentAlignment = Alignment.Center
             ) {
                 Box(
                     modifier = Modifier
-                        .size(44.dp)
+                        .size(44.designDp())
                         .clip(CircleShape)
                         .background(Color.White)
                         .border(
-                            width = 1.dp,
+                            width = 1.designDp(),
                             color = Gray,
                             shape = CircleShape
                         ).clickable(
@@ -156,7 +153,7 @@ fun CameraScreen(
                 )
             }
 
-            Spacer(modifier = Modifier.height(33.dp))
+            Spacer(modifier = Modifier.height(33.designDp()))
         }
 
     }

@@ -23,3 +23,4 @@ val ChipNormal = Color(0xFF00CDDD)
 val ChipHealthy = Color(0xFF0097FC)
 
 val BackgroundBlurColor = Color(0xFFFEA3B4)
+val HomeBackgroundBlur = Color(0xFFC4C4C4)
