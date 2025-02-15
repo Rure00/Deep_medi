@@ -1,10 +1,7 @@
 package com.rure.deepmedi.presentation.camera
 
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
-import androidx.camera.core.CameraX
-import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -13,9 +10,11 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
@@ -32,24 +31,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import com.rure.deepmedi.utils.designDp
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
-import com.google.accompanist.permissions.rememberPermissionState
 import com.rure.deepmedi.MainActivity
 import com.rure.deepmedi.R
-import com.rure.deepmedi.data.entity.UserData
-import com.rure.deepmedi.presentation.CameraViewModel
 import com.rure.deepmedi.presentation.MainViewModel
 import com.rure.deepmedi.presentation.state.ApiIntent
 import com.rure.deepmedi.presentation.utils.MyCameraX
 import com.rure.deepmedi.ui.theme.Gray
+import com.rure.deepmedi.utils.toDesignDp
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -118,21 +113,26 @@ fun CameraScreen(
         previewView.value?.let { preview ->
             AndroidView(modifier = Modifier.fillMaxSize(), factory = { preview }) {}
         }
-        Column {
+
+
+        Column(
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 305.toDesignDp())
+        ) {
             Box(
                 modifier = Modifier
-                    .size(55.designDp())
+                    .fillMaxWidth().aspectRatio(1f)
                     .clip(CircleShape)
-                    .background(Color.White),
+                    .background(Color.White)
+                    .padding(11.toDesignDp()),
                 contentAlignment = Alignment.Center
             ) {
                 Box(
                     modifier = Modifier
-                        .size(44.designDp())
+                        .fillMaxWidth().aspectRatio(1f)
                         .clip(CircleShape)
                         .background(Color.White)
                         .border(
-                            width = 1.designDp(),
+                            width = 2.dp,
                             color = Gray,
                             shape = CircleShape
                         ).clickable(
@@ -153,7 +153,7 @@ fun CameraScreen(
                 )
             }
 
-            Spacer(modifier = Modifier.height(33.designDp()))
+            Spacer(modifier = Modifier.height(33.toDesignDp()))
         }
 
     }

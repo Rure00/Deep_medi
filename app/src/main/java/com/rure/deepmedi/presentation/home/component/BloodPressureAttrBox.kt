@@ -24,7 +24,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
-import com.rure.deepmedi.utils.designDp
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.rure.deepmedi.R
 import com.rure.deepmedi.presentation.model.BloodPressureAttr
 import com.rure.deepmedi.ui.theme.BackgroundBlurColor
@@ -32,14 +33,14 @@ import com.rure.deepmedi.ui.theme.Black
 import com.rure.deepmedi.ui.theme.TextGray
 import com.rure.deepmedi.ui.theme.Typography
 import com.rure.deepmedi.ui.theme.White
-import com.rure.deepmedi.utils.designSp
 import com.rure.deepmedi.utils.dropShadow
+import com.rure.deepmedi.utils.toDesignDp
 
 @Composable
 fun BloodPressureAttrBox(
     bloodPressureAttr: BloodPressureAttr
 ) {
-    val itemBackgroundShape = remember { RoundedCornerShape(30.designDp()) }
+    val itemBackgroundShape = remember { RoundedCornerShape(30.toDesignDp()) }
     val backgroundGradient = remember {  Brush.verticalGradient(listOf(White, White.copy(alpha = 0f))) }
     val borderGradient = remember { Brush.verticalGradient(listOf(White, White.copy(alpha = 0f), White.copy(alpha = 0.77f))) }
 
@@ -51,17 +52,17 @@ fun BloodPressureAttrBox(
                 shape =  itemBackgroundShape
             )
             .border(
-                width = 1.designDp(),
+                width = 1.dp,
                 brush = borderGradient,
                 shape = itemBackgroundShape
             )
             .dropShadow(
                 shape = itemBackgroundShape,
-                blur = 4.designDp(),
+                blur = 4.dp,
                 color = BackgroundBlurColor,
                 alpha = 0.07f
             )
-            .padding(vertical = 13.designDp(), horizontal = 22.designDp()),
+            .padding(vertical = 13.dp, horizontal = 22.dp),
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.SpaceBetween
     ) {
@@ -76,11 +77,11 @@ fun BloodPressureAttrBox(
                 fontWeight = FontWeight.SemiBold,
                 color = TextGray,
             )
-            Spacer(modifier = Modifier.width(15.designDp()))
+            Spacer(modifier = Modifier.width(15.dp))
             Image(
                 imageVector = ImageVector.vectorResource(R.drawable.edit_icon),
                 contentDescription = null,
-                modifier = Modifier.size(36.designDp())
+                modifier = Modifier.size(36.toDesignDp())
             )
 
             Spacer(modifier = Modifier.weight(1f))
@@ -88,7 +89,7 @@ fun BloodPressureAttrBox(
             DegreeChip(bloodPressureAttr.hpDegree)
         }
 
-        Spacer(modifier = Modifier.height(4.designDp()))
+        Spacer(modifier = Modifier.height(4.dp))
 
         Row(
             modifier = Modifier,
@@ -108,10 +109,10 @@ fun BloodPressureAttrBox(
                     text = stringResource(R.string.sys_text),
                     style = Typography.labelSmall,
                     fontWeight = FontWeight.SemiBold,
-                    lineHeight = 60.designSp(),
+//                    lineHeight = 60.sp,
                     color = Black,
                 )
-                Spacer(modifier = Modifier.width(30.designDp()))
+                Spacer(modifier = Modifier.width(30.dp))
 
                 Text(
                     text = bloodPressureAttr.dia.toString(),
@@ -123,7 +124,7 @@ fun BloodPressureAttrBox(
                     text = stringResource(R.string.dia_text),
                     style = Typography.labelSmall,
                     fontWeight = FontWeight.SemiBold,
-                    lineHeight = 60.designSp(),
+//                    lineHeight = 60.sp,
                     color = Black,
                 )
             }

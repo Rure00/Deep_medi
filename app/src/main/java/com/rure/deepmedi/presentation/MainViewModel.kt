@@ -9,6 +9,7 @@ import com.rure.deepmedi.data.entity.UserAttribute
 import com.rure.deepmedi.data.entity.UserData
 import com.rure.deepmedi.domain.repository.RetrofitApiRepository
 import com.rure.deepmedi.domain.usercase.GetAttributeUseCase
+import com.rure.deepmedi.domain.usercase.SendImageUseCase
 import com.rure.deepmedi.presentation.model.Attribute
 import com.rure.deepmedi.presentation.model.BirthAttr
 import com.rure.deepmedi.presentation.model.BloodPressureAttr
@@ -31,26 +32,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val repository: RetrofitApiRepository,
+    private val sendImageUseCase: SendImageUseCase,
     private val getAttributeUseCase: GetAttributeUseCase
 ): ViewModel() {
 
     private val _userDataState = MutableStateFlow<UserData?>(null)
     val userDataState = _userDataState.asStateFlow()
-
-    private val _tokenListState = MutableStateFlow<TokenList?>(null)
-    val tokenListState = _tokenListState.asStateFlow()
-
-    private val _userAttrState = MutableStateFlow<List<Attribute<*>>>(listOf(
-        BirthAttr(
-            valueStr = "1999-05-19",
-            tag = AttributeTag.Birth,
-            lastUpdateTs = 202020L
-        ),
-        GenderAttr(0, AttributeTag.Gender, 20202L),
-        BloodPressureAttr("60,120", AttributeTag.BloodPressure, 202020L),
-        HeartRateAttr("70", AttributeTag.HeartRate, 2020L)
-    ))
+    private val _userAttrState = MutableStateFlow<List<Attribute<*>>>(listOf())
     val userAttrState = _userAttrState.asStateFlow()
 
     fun emit(intent: ApiIntent) {
@@ -58,48 +46,29 @@ class MainViewModel @Inject constructor(
             is ApiIntent.SendImage -> {
                 sendPicture(intent.image)
             }
-            is ApiIntent.TryAuthentication -> {
-                tryAuthenticate(intent.userData)
-            }
-            is ApiIntent.GetUserInformation -> {
-                getUserInfo(intent.token)
-            }
             is ApiIntent.RetrieveUserAttr -> {
-                retrieveUserAttr(intent.userId)
+                retrieveUserAttr()
             }
         }
     }
 
     private fun sendPicture(image: File) {
         viewModelScope.launch {
-            val fileBody = RequestBody.create("image/*".toMediaTypeOrNull(), image)
-            val part = MultipartBody.Part.createFormData("file", image.name, fileBody)
-            val result = repository.uploadImageFile(part)
-
-            result.onSuccess {
-                Log.d("MainViewModel", "sendPicture Success) ${it.email}, ${it.password}")
-            }.onFailure {
-                Log.d("MainViewModel", "sendPicture Fail) ${it.message}")
-            }
-        }
-    }
-    private fun tryAuthenticate(userData: UserData) {
-        viewModelScope.launch {
-
-        }
-    }
-    private fun getUserInfo(tokenList: TokenList) {
-        viewModelScope.launch {
-
+            sendImageUseCase.invoke(image)
+                .onSuccess {
+                    _userDataState.value = it
+                }
         }
     }
 
-    private fun retrieveUserAttr(userId: String) {
+    private fun retrieveUserAttr() {
         viewModelScope.launch {
-            tokenListState.value?.let {
-                getAttributeUseCase.invoke(it, userId)
+            _userDataState.value?.let {
+                getAttributeUseCase.invoke(it)
                     .onSuccess { list ->
                         _userAttrState.value = list
+                    }.onFailure {
+                        Log.e("HomeScreen", "retrieveUserAttr Error: ${it.message}")
                     }
             }
 

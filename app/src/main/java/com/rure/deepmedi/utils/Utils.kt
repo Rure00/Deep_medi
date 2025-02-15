@@ -1,7 +1,6 @@
 package com.rure.deepmedi.utils
 
 import android.graphics.BlurMaskFilter
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Size
@@ -17,8 +16,13 @@ import androidx.compose.ui.unit.sp
 import java.time.LocalDate
 import java.time.Period
 
-fun Int.designDp(): Dp = (this * (160f / 320f)).dp
-fun Int.designSp(): TextUnit = (this * (160f / 320f)).sp
+//fun Int.designDp(): Dp = (this * (160f / 320f)).dp
+
+
+private const val DESIGN_DPI = 320f
+fun Int.toDesignDp(): Dp = (this * (160f / DESIGN_DPI)).dp
+fun Int.toDesignSp(): TextUnit = (this * (160f / DESIGN_DPI)).sp
+
 
 fun LocalDate.calculateAge(): Int {
     val currentDate = LocalDate.now()
