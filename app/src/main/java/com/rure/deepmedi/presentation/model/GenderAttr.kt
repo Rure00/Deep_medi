@@ -9,4 +9,12 @@ class GenderAttr(
     override val lastUpdateTs: Long
 ): Attribute<String>() {
     override val value: String = if(value == 0) "남성"  else "여성"
+
+    companion object {
+        fun emptyObject() = GenderAttr(
+            value = 0,
+            tag = AttributeTag.Gender,
+            lastUpdateTs = 0L
+        )
+    }
 }

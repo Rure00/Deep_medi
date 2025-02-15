@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -46,6 +47,7 @@ import com.rure.deepmedi.presentation.model.BloodPressureAttr
 import com.rure.deepmedi.presentation.model.GenderAttr
 import com.rure.deepmedi.presentation.model.HeartRateAttr
 import com.rure.deepmedi.presentation.model.find
+import com.rure.deepmedi.presentation.state.ApiIntent
 import com.rure.deepmedi.ui.theme.Black
 import com.rure.deepmedi.ui.theme.HomeBackgroundBlur
 import com.rure.deepmedi.ui.theme.TextLightGray
@@ -63,19 +65,25 @@ fun HomeScreen(
     val userAttribute by mainViewModel.userAttrState.collectAsState()
 
     val gender by remember { derivedStateOf {
-        userAttribute.find(AttributeTag.Gender) as GenderAttr
+        userAttribute.find(AttributeTag.Gender) as GenderAttr?
+            ?: GenderAttr.emptyObject()
     } }
     val birth by remember { derivedStateOf {
-        userAttribute.find(AttributeTag.Birth) as BirthAttr
+        userAttribute.find(AttributeTag.Birth) as BirthAttr?
+            ?: BirthAttr.emptyObject()
     } }
     val heartRate by remember { derivedStateOf {
-        userAttribute.find(AttributeTag.HeartRate) as HeartRateAttr
+        userAttribute.find(AttributeTag.HeartRate) as HeartRateAttr?
     } }
     val bloodPressure by remember { derivedStateOf {
-        userAttribute.find(AttributeTag.BloodPressure) as BloodPressureAttr
+        userAttribute.find(AttributeTag.BloodPressure) as BloodPressureAttr?
     } }
 
-    //TODO: Vector file 오류
+    LaunchedEffect(true) {
+        mainViewModel.emit(ApiIntent.)
+    }
+
+    //TODO: 배경 화면 Vector file 오류
 //    Box(
 //        modifier = Modifier.fillMaxSize()
 //    ) {
@@ -111,7 +119,7 @@ fun HomeScreen(
             verticalAlignment = Alignment.Bottom
         ) {
             Text(
-                text = stringResource(R.string.gender_birth_text, birth.value.calculateAge(), gender.value),
+                text = stringResource(R.string.gender_birth_text, birth?.value!!.calculateAge(), gender.value),
                 style = Typography.bodySmall,
                 fontWeight = FontWeight.SemiBold,
                 color = Black
@@ -130,8 +138,8 @@ fun HomeScreen(
             modifier = Modifier.fillMaxWidth().wrapContentSize(),
             verticalArrangement = Arrangement.spacedBy(12.designDp())
         ) {
-            HeartRateAttrBox(heartRate)
-            BloodPressureAttrBox(bloodPressure)
+            heartRate?.let { HeartRateAttrBox(it) }
+            bloodPressure?.let { BloodPressureAttrBox(it) }
         }
     }
 }

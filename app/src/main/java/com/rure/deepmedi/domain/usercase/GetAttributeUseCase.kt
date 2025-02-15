@@ -3,6 +3,7 @@ package com.rure.deepmedi.domain.usercase
 import android.util.Log
 import com.rure.deepmedi.data.entity.AttributeTag
 import com.rure.deepmedi.data.entity.TokenList
+import com.rure.deepmedi.data.entity.UserData
 import com.rure.deepmedi.domain.repository.RetrofitApiRepository
 import com.rure.deepmedi.presentation.model.Attribute
 import com.rure.deepmedi.presentation.model.BirthAttr
@@ -19,9 +20,12 @@ class GetAttributeUseCase @Inject constructor(
 ) {
     private val tag = "GetAttributeUseCase"
 
-    suspend operator fun invoke(tokenList: TokenList, userId: String) = kotlin.runCatching {
+    suspend operator fun invoke(userData: UserData) = kotlin.runCatching {
         withContext(ioDispatcher) {
-            retrofitApiRepository.retrieveUserAttribute(tokenList.token, userId).getOrThrow().map {
+            val tokenList = retrofitApiRepository.userAuthentication(userData.email, userData.password).getOrThrow()
+            val userId = retrofitApiRepository.getUserInformation(tokenList.token).getOrThrow()
+
+            retrofitApiRepository.retrieveUserAttribute(tokenList.token, userId.id).getOrThrow().map {
                 when(it.key) {
                     AttributeTag.Birth -> BirthAttr(it.value.value, it.key, it.value.lastUpdateTs.toLong())
                     AttributeTag.BloodPressure -> BloodPressureAttr(it.value.value, it.key, it.value.lastUpdateTs.toLong())
