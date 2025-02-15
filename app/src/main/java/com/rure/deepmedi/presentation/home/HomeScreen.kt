@@ -37,6 +37,7 @@ import com.rure.deepmedi.R
 import com.rure.deepmedi.data.entity.AttributeTag
 import com.rure.deepmedi.presentation.MainViewModel
 import com.rure.deepmedi.presentation.component.LoadingDialog
+import com.rure.deepmedi.presentation.home.component.AttributeSkeletonBox
 import com.rure.deepmedi.presentation.home.component.BloodPressureAttrBox
 import com.rure.deepmedi.presentation.home.component.HeartRateAttrBox
 import com.rure.deepmedi.presentation.model.BirthAttr
@@ -118,8 +119,8 @@ fun HomeScreen(
             modifier = Modifier.fillMaxWidth().wrapContentSize(),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            heartRate?.let { HeartRateAttrBox(it) }
-            bloodPressure?.let { BloodPressureAttrBox(it) }
+            heartRate?.let { HeartRateAttrBox(it) } ?: AttributeSkeletonBox()
+            bloodPressure?.let { BloodPressureAttrBox(it) } ?: AttributeSkeletonBox()
         }
 
         Spacer(modifier = Modifier.weight(1f))

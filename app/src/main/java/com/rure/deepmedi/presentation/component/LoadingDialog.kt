@@ -12,7 +12,7 @@ import androidx.compose.ui.graphics.Color
 @Composable
 fun LoadingDialog() {
     Box(
-        modifier = Modifier.fillMaxSize().background(Color.Black.copy(alpha = 0.7f)),
+        modifier = Modifier.fillMaxSize().background(Color.LightGray.copy(alpha = 0.5f)),
         contentAlignment = Alignment.Center
     ) {
         CircularProgressIndicator()
