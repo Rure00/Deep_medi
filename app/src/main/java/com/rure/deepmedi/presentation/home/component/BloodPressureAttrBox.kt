@@ -108,7 +108,7 @@ fun BloodPressureAttrBox(
                     text = stringResource(R.string.sys_text),
                     style = Typography.labelSmall,
                     fontWeight = FontWeight.SemiBold,
-                    lineHeight = 21.designSp(),
+                    lineHeight = 60.designSp(),
                     color = Black,
                 )
                 Spacer(modifier = Modifier.width(30.designDp()))
@@ -123,7 +123,7 @@ fun BloodPressureAttrBox(
                     text = stringResource(R.string.dia_text),
                     style = Typography.labelSmall,
                     fontWeight = FontWeight.SemiBold,
-                    lineHeight = 21.designSp(),
+                    lineHeight = 60.designSp(),
                     color = Black,
                 )
             }

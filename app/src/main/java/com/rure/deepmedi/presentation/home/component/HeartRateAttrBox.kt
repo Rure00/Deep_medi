@@ -103,7 +103,7 @@ fun HeartRateAttrBox(
                     style = Typography.bodySmall,
                     fontWeight = FontWeight.SemiBold,
                     color = Black,
-                    lineHeight = 36.designSp()
+                    lineHeight = 60.designSp()
                 )
             }
 
@@ -119,17 +119,4 @@ fun HeartRateAttrBox(
             )
         }
     }
-}
-
-
-@Preview
-@Composable
-private fun HeartRateAttrBoxPrv() {
-    HeartRateAttrBox(
-        HeartRateAttr(
-            valueStr = "55",
-            tag = AttributeTag.HeartRate,
-            lastUpdateTs = 20241024L
-        )
-    )
 }
