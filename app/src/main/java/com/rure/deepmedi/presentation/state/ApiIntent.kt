@@ -7,5 +7,5 @@ import java.io.File
 
 sealed class ApiIntent {
     data class SendImage(val image: File): ApiIntent()
-    data class RetrieveUserAttr(val userAttr: List<Attribute<*>>): ApiIntent()
+    data class RetrieveUserAttr(val userData: UserData): ApiIntent()
 }

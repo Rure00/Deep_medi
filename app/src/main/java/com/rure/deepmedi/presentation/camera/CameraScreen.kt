@@ -121,18 +121,18 @@ fun CameraScreen(
         Column {
             Box(
                 modifier = Modifier
-                    .size(55.designDp())
+                    .size(110.designDp())
                     .clip(CircleShape)
                     .background(Color.White),
                 contentAlignment = Alignment.Center
             ) {
                 Box(
                     modifier = Modifier
-                        .size(44.designDp())
+                        .size(88.designDp())
                         .clip(CircleShape)
                         .background(Color.White)
                         .border(
-                            width = 1.designDp(),
+                            width = 2.designDp(),
                             color = Gray,
                             shape = CircleShape
                         ).clickable(

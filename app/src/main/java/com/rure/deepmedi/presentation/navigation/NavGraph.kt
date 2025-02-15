@@ -7,7 +7,7 @@ import androidx.navigation.navigation
 import com.rure.deepmedi.presentation.camera.CameraScreen
 import com.rure.deepmedi.presentation.home.HomeScreen
 
-fun NavGraphBuilder.mainNavGraph(navController: NavController, onScreenChanged: (Destination) -> Unit) {
+fun NavGraphBuilder.mainNavGraph(navController: NavController) {
     navigation(
         route = "main/",
         startDestination = Destination.Camera.route

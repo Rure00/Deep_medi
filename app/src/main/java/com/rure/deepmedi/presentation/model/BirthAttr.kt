@@ -17,7 +17,7 @@ class BirthAttr(
 
     companion object {
         fun emptyObject() = BirthAttr(
-            valueStr = "2000-01-01",
+            valueStr = "20000101",
             tag = AttributeTag.Birth,
             lastUpdateTs = 0L
         )

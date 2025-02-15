@@ -1,5 +1,7 @@
 package com.rure.deepmedi.data.entity
 
+import android.util.Log
+
 sealed class AttributeTag(val tag: String) {
     data object Gender: AttributeTag("gender")
     data object Birth: AttributeTag("birth")
@@ -8,9 +10,9 @@ sealed class AttributeTag(val tag: String) {
 
 
     companion object {
-        private val entries = listOf(Gender, Birth, HeartRate, BloodPressure)
-        fun getFromTag(tag: String) = entries.find {
-            it.tag == tag
+        private val entries by lazy {
+            listOf(Gender, Birth, HeartRate, BloodPressure)
         }
+        fun getFromTag(tag: String) = entries.find { it.tag == tag }
     }
 }

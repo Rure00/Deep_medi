@@ -67,6 +67,8 @@ class MainViewModel @Inject constructor(
                 getAttributeUseCase.invoke(it)
                     .onSuccess { list ->
                         _userAttrState.value = list
+                    }.onFailure {
+                        Log.e("HomeScreen", "retrieveUserAttr Error: ${it.message}")
                     }
             }
 

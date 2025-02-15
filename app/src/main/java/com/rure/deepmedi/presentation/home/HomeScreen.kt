@@ -1,9 +1,11 @@
 package com.rure.deepmedi.presentation.home
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -53,7 +55,9 @@ import com.rure.deepmedi.ui.theme.HomeBackgroundBlur
 import com.rure.deepmedi.ui.theme.TextLightGray
 import com.rure.deepmedi.ui.theme.Typography
 import com.rure.deepmedi.ui.theme.White
+import com.rure.deepmedi.ui.theme.pretendard
 import com.rure.deepmedi.utils.calculateAge
+import com.rure.deepmedi.utils.designSp
 
 @Composable
 fun HomeScreen(
@@ -79,8 +83,11 @@ fun HomeScreen(
         userAttribute.find(AttributeTag.BloodPressure) as BloodPressureAttr?
     } }
 
-    LaunchedEffect(true) {
-        mainViewModel.emit(ApiIntent.)
+    LaunchedEffect(userData) {
+        Log.d("HomeScreen", "userData?: ${userData != null}")
+        userData?.let {
+            mainViewModel.emit(ApiIntent.RetrieveUserAttr(it))
+        }
     }
 
     //TODO: 배경 화면 Vector file 오류
@@ -141,5 +148,18 @@ fun HomeScreen(
             heartRate?.let { HeartRateAttrBox(it) }
             bloodPressure?.let { BloodPressureAttrBox(it) }
         }
+
+        Text(
+            text = stringResource(R.string.home_text),
+            fontFamily = pretendard,
+            fontSize = 30.designSp(),
+            fontWeight = FontWeight.SemiBold,
+            lineHeight = 45.designSp(),
+            modifier = Modifier
+                .clickable {
+                    toCamera()
+                }
+                .padding(vertical = 40.designDp(), horizontal = 68.designDp())
+        )
     }
 }

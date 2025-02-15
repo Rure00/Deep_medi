@@ -11,4 +11,5 @@
     <string name="blood_pressure_text">혈압</string>
     <string name="sys_text">(SYS)</string>
     <string name="dia_text">(DIA)</string>
+    <string name="home_text">홈</string>
 </resources>
