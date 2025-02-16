@@ -1,6 +1,7 @@
 package com.rure.deepmedi.presentation.camera
 
 import android.content.Context
+import android.os.Build
 import android.util.Log
 import android.widget.Toast
 import androidx.camera.view.PreviewView
@@ -71,7 +72,11 @@ fun CameraScreen(
     val facing = cameraX.getFacingState().collectAsState()
 
     val permissions = rememberMultiplePermissionsState(
-        listOf(android.Manifest.permission.CAMERA, android.Manifest.permission.READ_EXTERNAL_STORAGE)
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            listOf(android.Manifest.permission.CAMERA, android.Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED, android.Manifest.permission.READ_MEDIA_IMAGES)
+        } else {
+            listOf(android.Manifest.permission.CAMERA, android.Manifest.permission.READ_EXTERNAL_STORAGE)
+        }
     ) { permissionToIsGranted ->
         if(!permissionToIsGranted.containsValue(false)) {
             cameraX.initialize(context = context)
