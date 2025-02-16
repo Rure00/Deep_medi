@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -21,6 +23,22 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        val properties = Properties()
+        properties.load(project.rootProject.file("local.properties").inputStream())
+        buildFeatures {
+            buildConfig = true
+        }
+        buildConfigField(
+            "String",
+            "API_URL",
+            properties.getProperty("API_URL")
+        )
+        buildConfigField(
+            "String",
+            "UPLOAD_URL",
+            properties.getProperty("UPLOAD_URL")
+        )
     }
 
     buildTypes {
