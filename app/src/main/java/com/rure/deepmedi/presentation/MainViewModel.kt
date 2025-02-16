@@ -40,6 +40,7 @@ class MainViewModel @Inject constructor(
     val userAttrState = _userAttrState.asStateFlow()
 
     fun emit(intent: ApiIntent) {
+        Log.d(tag, "emit: ${intent}")
         when(intent) {
             is ApiIntent.SendImage -> {
                 sendPicture(intent.image, intent.listener)
