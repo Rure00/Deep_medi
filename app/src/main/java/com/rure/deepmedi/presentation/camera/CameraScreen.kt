@@ -1,6 +1,7 @@
 package com.rure.deepmedi.presentation.camera
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.background
@@ -32,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -70,12 +72,16 @@ fun CameraScreen(
 
     val permissions = rememberMultiplePermissionsState(
         listOf(android.Manifest.permission.CAMERA, android.Manifest.permission.READ_EXTERNAL_STORAGE)
-    ) {
-        cameraX.initialize(context = context)
-        previewView.value = cameraX.getPreviewView()
+    ) { permissionToIsGranted ->
+        if(!permissionToIsGranted.containsValue(false)) {
+            cameraX.initialize(context = context)
+            previewView.value = cameraX.getPreviewView()
 
-        cameraScope.launch(Dispatchers.Main) {
-            cameraX.startCamera(lifecycleOwner = lifecycleOwner)
+            cameraScope.launch(Dispatchers.Main) {
+                cameraX.startCamera(lifecycleOwner = lifecycleOwner)
+            }
+        } else {
+            Toast.makeText(context, context.getString(R.string.need_permission_guide), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -110,6 +116,10 @@ fun CameraScreen(
             AndroidView(modifier = Modifier.fillMaxSize(), factory = { preview }) {}
         }
 
+
+        if(!permissions.allPermissionsGranted) {
+            return@Box
+        }
 
         Column(
             modifier = Modifier.fillMaxWidth().padding(horizontal = 305.matchRatioToWidth(context))
