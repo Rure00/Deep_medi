@@ -8,12 +8,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.window.Dialog
 
 @Composable
 fun LoadingDialog() {
-    Box(
-        modifier = Modifier.fillMaxSize().background(Color.LightGray.copy(alpha = 0.5f)),
-        contentAlignment = Alignment.Center
+    Dialog(
+        onDismissRequest = { }
     ) {
         CircularProgressIndicator()
     }
