@@ -1,6 +1,9 @@
 package com.rure.deepmedi.utils
 
+import android.content.Context
+import android.content.res.Resources
 import android.graphics.BlurMaskFilter
+import android.util.Log
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Size
@@ -16,12 +19,25 @@ import androidx.compose.ui.unit.sp
 import java.time.LocalDate
 import java.time.Period
 
-//fun Int.designDp(): Dp = (this * (160f / 320f)).dp
-
-
 private const val DESIGN_DPI = 320f
+private const val DESIGN_WIDTH = 720
+private const val DESIGN_HEIGHT = 1280
+
 fun Int.toDesignDp(): Dp = (this * (160f / DESIGN_DPI)).dp
 fun Int.toDesignSp(): TextUnit = (this * (160f / DESIGN_DPI)).sp
+
+fun Int.matchRatioToWidth(context: Context): Dp {
+    val displayMetrics = context.resources.displayMetrics
+    val screenWidth = displayMetrics.widthPixels / displayMetrics.density
+
+    return ((this * screenWidth) / DESIGN_WIDTH).dp
+}
+fun Int.matchRatioToHeight(context: Context): Dp {
+    val displayMetrics = context.resources.displayMetrics
+    val screenHeight = displayMetrics.heightPixels / displayMetrics.density
+
+    return ((this * screenHeight) / DESIGN_HEIGHT).dp
+}
 
 
 fun LocalDate.calculateAge(): Int {

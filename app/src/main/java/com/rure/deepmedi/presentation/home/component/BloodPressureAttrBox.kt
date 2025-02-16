@@ -104,6 +104,7 @@ fun BloodPressureAttrBox(
                     style = Typography.bodyLarge,
                     fontWeight = FontWeight.SemiBold,
                     color = Black,
+                    modifier = Modifier.alignByBaseline()
                 )
                 Text(
                     text = stringResource(R.string.sys_text),
@@ -111,14 +112,16 @@ fun BloodPressureAttrBox(
                     fontWeight = FontWeight.SemiBold,
 //                    lineHeight = 60.sp,
                     color = Black,
+                    modifier = Modifier.alignByBaseline()
                 )
-                Spacer(modifier = Modifier.width(30.dp))
+                Spacer(modifier = Modifier.width(30.toDesignDp()))
 
                 Text(
                     text = bloodPressureAttr.dia.toString(),
                     style = Typography.bodyLarge,
                     fontWeight = FontWeight.SemiBold,
                     color = Black,
+                    modifier = Modifier.alignByBaseline()
                 )
                 Text(
                     text = stringResource(R.string.dia_text),
@@ -126,6 +129,7 @@ fun BloodPressureAttrBox(
                     fontWeight = FontWeight.SemiBold,
 //                    lineHeight = 60.sp,
                     color = Black,
+                    modifier = Modifier.alignByBaseline()
                 )
             }
 

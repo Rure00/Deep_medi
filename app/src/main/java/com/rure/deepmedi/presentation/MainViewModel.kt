@@ -35,43 +35,41 @@ class MainViewModel @Inject constructor(
     private val sendImageUseCase: SendImageUseCase,
     private val getAttributeUseCase: GetAttributeUseCase
 ): ViewModel() {
-
-    private val _userDataState = MutableStateFlow<UserData?>(null)
-    val userDataState = _userDataState.asStateFlow()
+    private val tag = "MainViewModel"
     private val _userAttrState = MutableStateFlow<List<Attribute<*>>>(listOf())
     val userAttrState = _userAttrState.asStateFlow()
 
     fun emit(intent: ApiIntent) {
+        Log.d(tag, "emit: ${intent}")
         when(intent) {
             is ApiIntent.SendImage -> {
-                sendPicture(intent.image)
+                sendPicture(intent.image, intent.listener)
             }
             is ApiIntent.RetrieveUserAttr -> {
-                retrieveUserAttr()
+                retrieveUserAttr(intent.loginId, intent.password)
             }
         }
     }
 
-    private fun sendPicture(image: File) {
+    private fun sendPicture(image: File, resultListener: (UserData?) -> Unit) {
         viewModelScope.launch {
             sendImageUseCase.invoke(image)
                 .onSuccess {
-                    _userDataState.value = it
+                    resultListener(it)
+                }.onFailure {
+                    resultListener(null)
                 }
         }
     }
 
-    private fun retrieveUserAttr() {
+    private fun retrieveUserAttr(loginId: String, pwd: String) {
         viewModelScope.launch {
-            _userDataState.value?.let {
-                getAttributeUseCase.invoke(it)
-                    .onSuccess { list ->
-                        _userAttrState.value = list
-                    }.onFailure {
-                        Log.e("HomeScreen", "retrieveUserAttr Error: ${it.message}")
-                    }
-            }
-
+            getAttributeUseCase.invoke(UserData(loginId, pwd))
+                .onSuccess { list ->
+                    _userAttrState.value = list
+                }.onFailure {
+                    Log.e(tag, "retrieveUserAttr Error: ${it.message}")
+                }
         }
     }
 }

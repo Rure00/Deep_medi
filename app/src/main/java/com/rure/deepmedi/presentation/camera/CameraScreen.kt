@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -33,6 +34,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -40,9 +42,11 @@ import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.rure.deepmedi.MainActivity
 import com.rure.deepmedi.R
 import com.rure.deepmedi.presentation.MainViewModel
+import com.rure.deepmedi.presentation.component.LoadingDialog
 import com.rure.deepmedi.presentation.state.ApiIntent
 import com.rure.deepmedi.presentation.utils.MyCameraX
 import com.rure.deepmedi.ui.theme.Gray
+import com.rure.deepmedi.utils.matchRatioToWidth
 import com.rure.deepmedi.utils.toDesignDp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -51,9 +55,9 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun CameraScreen(
-    toHome: () -> Unit,
+    toHome: (String, String) -> Unit,
     context: Context = LocalContext.current,
-    mainViewModel: MainViewModel = viewModel(context as MainActivity)
+    mainViewModel: MainViewModel = hiltViewModel()
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
     val cameraScope = rememberCoroutineScope()
@@ -75,15 +79,7 @@ fun CameraScreen(
         }
     }
 
-    val rippleScope = rememberCoroutineScope()
     var doTakingPicture by remember { mutableStateOf(false) }
-    fun rippleScreen() {
-        rippleScope.launch {
-            doTakingPicture = true
-            delay(500L)
-            doTakingPicture = false
-        }
-    }
 
     LaunchedEffect(Unit) {
         if(permissions.allPermissionsGranted) {
@@ -116,7 +112,7 @@ fun CameraScreen(
 
 
         Column(
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 305.toDesignDp())
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 305.matchRatioToWidth(context))
         ) {
             Box(
                 modifier = Modifier
@@ -139,14 +135,26 @@ fun CameraScreen(
                             indication = rememberRipple(bounded = true, color = Gray),
                             interactionSource = remember { MutableInteractionSource() }
                         ) {
-                            rippleScreen()
+                            doTakingPicture = true
                             cameraX.takePicture { name ->
                                 val imageFile = cameraX.getImage(name)
                                 if(imageFile != null) {
-                                    mainViewModel.emit(ApiIntent.SendImage(imageFile))
-                                    toHome()
+                                    mainViewModel.emit(
+                                        ApiIntent.SendImage(imageFile) { result ->
+                                            if(result != null) toHome(result.email, result.password)
+                                            else
+                                                Toast.makeText(
+                                                    context,
+                                                    context.getString(R.string.fail_sending_image_guide),
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                            doTakingPicture = false
+                                        }
+                                    )
+
                                 } else {
                                     Toast.makeText(context, context.getString(R.string.fail_taking_picture_guide), Toast.LENGTH_SHORT).show()
+                                    doTakingPicture = false
                                 }
                             }
                         }
@@ -155,13 +163,10 @@ fun CameraScreen(
 
             Spacer(modifier = Modifier.height(33.toDesignDp()))
         }
-
     }
 
     if(doTakingPicture) {
-        Box(
-            modifier = Modifier.fillMaxSize().background(Color.Black.copy(alpha = 0.7f))
-        )
+        LoadingDialog()
     }
 
 

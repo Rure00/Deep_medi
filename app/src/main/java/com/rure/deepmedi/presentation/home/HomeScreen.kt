@@ -1,6 +1,7 @@
 package com.rure.deepmedi.presentation.home
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,7 +20,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,11 +32,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.rure.deepmedi.MainActivity
 import com.rure.deepmedi.R
 import com.rure.deepmedi.data.entity.AttributeTag
 import com.rure.deepmedi.presentation.MainViewModel
+import com.rure.deepmedi.presentation.component.LoadingDialog
+import com.rure.deepmedi.presentation.home.component.AttributeSkeletonBox
 import com.rure.deepmedi.presentation.home.component.BloodPressureAttrBox
 import com.rure.deepmedi.presentation.home.component.HeartRateAttrBox
 import com.rure.deepmedi.presentation.model.BirthAttr
@@ -47,23 +55,24 @@ import com.rure.deepmedi.ui.theme.Typography
 import com.rure.deepmedi.ui.theme.pretendard
 import com.rure.deepmedi.utils.calculateAge
 import com.rure.deepmedi.utils.toDesignDp
+import kotlinx.coroutines.flow.distinctUntilChanged
 
 @Composable
 fun HomeScreen(
-    context: Context = LocalContext.current,
-    mainViewModel: MainViewModel = viewModel(context as MainActivity),
+    loginId: String,
+    password: String,
+    mainViewModel: MainViewModel = hiltViewModel(),
     toCamera: () -> Unit
 ) {
-    val userData by mainViewModel.userDataState.collectAsState()
-    val userAttribute by mainViewModel.userAttrState.collectAsState()
+    val tag = "HomeScreen"
+    var showLoadingDialog by remember { mutableStateOf(false) }
 
+    val userAttribute by remember { mainViewModel.userAttrState }.collectAsStateWithLifecycle()
     val gender by remember { derivedStateOf {
         userAttribute.find(AttributeTag.Gender) as GenderAttr?
-            ?: GenderAttr.emptyObject()
     } }
     val birth by remember { derivedStateOf {
         userAttribute.find(AttributeTag.Birth) as BirthAttr?
-            ?: BirthAttr.emptyObject()
     } }
     val heartRate by remember { derivedStateOf {
         userAttribute.find(AttributeTag.HeartRate) as HeartRateAttr?
@@ -72,31 +81,15 @@ fun HomeScreen(
         userAttribute.find(AttributeTag.BloodPressure) as BloodPressureAttr?
     } }
 
-    LaunchedEffect(userData) {
-        userData?.let {
-            mainViewModel.emit(ApiIntent.RetrieveUserAttr(it))
+
+    LaunchedEffect(userAttribute) {
+        showLoadingDialog = true
+        if(userAttribute.isNotEmpty()) showLoadingDialog = false
+        else {
+            mainViewModel.emit(ApiIntent.RetrieveUserAttr(loginId, password))
+
         }
     }
-
-    //TODO: 배경 화면 Vector file 오류
-//    Box(
-//        modifier = Modifier.fillMaxSize()
-//    ) {
-//        Image(
-//            imageVector = ImageVector.vectorResource(R.drawable.home_background),
-//            contentDescription = null,
-//            contentScale = ContentScale.FillHeight,
-//            modifier = Modifier.fillMaxSize()
-//                .background(
-//                    brush = Brush.verticalGradient(listOf(White, HomeBackgroundBlur.copy(alpha = 0f)))
-//                ).blur(20.dp)
-//                .border(
-//                    width = 1.dp,
-//                    brush = Brush.verticalGradient(listOf(White, White.copy(alpha = 0f))),
-//                    shape = RectangleShape
-//                )
-//        )
-//    }
 
     Column(
         modifier = Modifier.fillMaxSize()
@@ -115,7 +108,7 @@ fun HomeScreen(
             verticalAlignment = Alignment.Bottom
         ) {
             Text(
-                text = stringResource(R.string.gender_birth_text, birth.value.calculateAge(), gender.value),
+                text = stringResource(R.string.gender_birth_text, birth?.value?.calculateAge() ?: 0, gender?.value ?: "OO"),
                 style = Typography.bodySmall,
                 fontWeight = FontWeight.SemiBold,
                 color = TextLightGray
@@ -134,8 +127,8 @@ fun HomeScreen(
             modifier = Modifier.fillMaxWidth().wrapContentSize(),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            heartRate?.let { HeartRateAttrBox(it) }
-            bloodPressure?.let { BloodPressureAttrBox(it) }
+            heartRate?.let { HeartRateAttrBox(it) } ?: AttributeSkeletonBox()
+            bloodPressure?.let { BloodPressureAttrBox(it) } ?: AttributeSkeletonBox()
         }
 
         Spacer(modifier = Modifier.weight(1f))
@@ -158,6 +151,9 @@ fun HomeScreen(
                     .padding(vertical = 40.toDesignDp(), horizontal = 68.toDesignDp())
             )
         }
+    }
 
+    if(showLoadingDialog) {
+        LoadingDialog()
     }
 }
