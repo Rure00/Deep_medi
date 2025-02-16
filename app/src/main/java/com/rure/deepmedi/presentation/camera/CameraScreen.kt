@@ -46,6 +46,7 @@ import com.rure.deepmedi.presentation.component.LoadingDialog
 import com.rure.deepmedi.presentation.state.ApiIntent
 import com.rure.deepmedi.presentation.utils.MyCameraX
 import com.rure.deepmedi.ui.theme.Gray
+import com.rure.deepmedi.utils.matchRatioToWidth
 import com.rure.deepmedi.utils.toDesignDp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -111,7 +112,7 @@ fun CameraScreen(
 
 
         Column(
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 305.toDesignDp())
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 305.matchRatioToWidth(context))
         ) {
             Box(
                 modifier = Modifier
